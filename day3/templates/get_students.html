@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get_Students</title>
+</head>
+<body>
+<ul>
+    {% for student in students %}
+        <li>{{ student.s_name }}</li>
+    {% empty %}
+        <h1>沒東西</h1>
+    {% endfor %}
+</ul>
+<hr>
+<ul>
+    {% for student in students %}
+        <li>{{ forloop.revcounter0 }}:{{ student.get_name }}</li>
+    {% endfor %}
+</ul>
+<hr>
+<li>{{ student.get_name }}</li>
+<hr>
+<h1>{{ students.1.s_name }}</h1>
+<hr>
+<h1>{{ hobby_dict.hobby }}</h1>
+<hr>
+<ul>
+    {% for student in students %}
+        {% if forloop.first %}
+            <li style="color: red">{{ student.get_name }}</li>
+        {% elif forloop.last %}
+            <li style="color: green">{{ student.get_name }}</li>
+        {% else %}
+            <li>{{ student.get_name }}</li>
+        {% endif %}
+    {% endfor %}
+</ul>
+<!--會被看到的注釋 -->
+
+{#<h1>單行注釋</h1>#}
+
+{% comment %}
+<h1>多</h1>
+<h1>行</h1>
+<h1>注</h1>
+<h1>釋</h1>
+{% endcomment %}
+<hr>
+<h1>{{ count }}</h1>
+<h1>{% widthratio count 5 1 %}</h1>
+<h1>{% widthratio count 1 5 %}</h1>
+
+</body>
+</html>
