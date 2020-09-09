@@ -1,0 +1,15 @@
+{% extends 'home.html' %}
+{% load static %}
+<h3>今天下雨</h3>
+{% block header %}
+{{ block.super }}
+<h1>再來一次!</h1>
+{% endblock %}
+
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock %}
+
+{% block ext_css %}
+<link rel="stylesheet" href="{% static 'css/home_main.css' %}">
+{% endblock %}

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grades_List</title>
+</head>
+<body>
+<ul>
+    {% for grade in grades %}
+    <li><a href='/next/students/{{ grade.id }}/'>{{ grade.g_grade }}</a></li>
+    {% endfor %}
+</ul>
+</body>
+</html>

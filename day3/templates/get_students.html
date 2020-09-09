@@ -15,7 +15,7 @@
 <hr>
 <ul>
     {% for student in students %}
-        <li>{{ forloop.revcounter0 }}:{{ student.get_name }}</li>
+    <li>{{ forloop.revcounter0 }}:{{ student.get_name }}</li>
     {% endfor %}
 </ul>
 <hr>
@@ -24,16 +24,23 @@
 <h1>{{ students.1.s_name }}</h1>
 <hr>
 <h1>{{ hobby_dict.hobby }}</h1>
+<h1>{{ hobby_dict.hobby|upper }}</h1>
+<h1>{{ hobby_dict.hobby|lower }}</h1>
+<h1>{{ hobby_dict.hobby|join:'i'}}</h1>
+<h1>{{ hobby_dict.hobb|default:123}}</h1>
+<h1>{{ today|date:'Y-M-D'}}</h1>
+<h1>{{ today|date:'y-m-d'}}</h1>
+<h1>{{ today|date:'yy-m-d'}}</h1>
 <hr>
 <ul>
     {% for student in students %}
-        {% if forloop.first %}
-            <li style="color: red">{{ student.get_name }}</li>
-        {% elif forloop.last %}
-            <li style="color: green">{{ student.get_name }}</li>
-        {% else %}
-            <li>{{ student.get_name }}</li>
-        {% endif %}
+    {% if forloop.first %}
+    <li style="color: red">{{ student.get_name }}</li>
+    {% elif forloop.last %}
+    <li style="color: green">{{ student.get_name }}</li>
+    {% else %}
+    <li>{{ student.get_name }}</li>
+    {% endif %}
     {% endfor %}
 </ul>
 <!--會被看到的注釋 -->
@@ -50,6 +57,48 @@
 <h1>{{ count }}</h1>
 <h1>{% widthratio count 5 1 %}</h1>
 <h1>{% widthratio count 1 5 %}</h1>
+<h1>{{ count|add:2 }}</h1>
+<h1>{{ count|add:-2 }}</h1>
 
+<hr>
+<ul>
+    {% for student in students %}
+    {% if forloop.counter0|divisibleby:2 %}
+    <li style="color: red">{{ student.s_name }}</li>
+    {% else %}
+    <li style="color: green">{{ student.s_name }}</li>
+    {% endif %}
+    {% endfor %}
+</ul>
+<hr>
+<ul>
+    {% for student in students %}
+    {% ifequal forloop.counter0|divisibleby:5 1 %}
+    <li style="color: blue">{{ student.s_name }}</li>
+    {% else %}
+    <li style="color: salmon">{{ student.s_name }}</li>
+    {% endifequal %}
+    {% endfor %}
+</ul>
+<hr>
+<ul>
+    {% for student in students %}
+    {% ifequal forloop.counter0 5 %}
+    <li style="color: chartreuse">{{ student.s_name }}</li>
+    {% else %}
+    <li style="color: silver">{{ student.s_name }}</li>
+    {% endifequal %}
+    {% endfor %}
+</ul>
+<hr>
+{#<p>{{ code|safe }}</p>#}
+{#{% autoescape off %}#}
+{# {{ code }}#}
+{#{% endautoescape %}#}
+{% autoescape on %}
+{{ code }}
+{% endautoescape %}
+<p>This is some text in a very short paragraph</p>
+<p>This is some text in a very short paragraph</p>
 </body>
 </html>

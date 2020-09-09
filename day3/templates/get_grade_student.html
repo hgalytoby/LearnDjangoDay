@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get_Grade_Student</title>
+</head>
+<body>
+<ul>
+    {% for student in students_grade %}
+    <li>{{ student.s_name }}</li>
+    {% endfor %}
+</ul>
+
+<ul>
+    {% for grade_student in grade_students %}
+    <li>{{ grade_student.s_name }}</li>
+    {% endfor %}
+
+</ul>
+</body>
+</html>
