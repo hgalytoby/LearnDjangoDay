@@ -10,5 +10,24 @@
     <li><a href='/next/students/{{ grade.id }}/'>{{ grade.g_grade }}</a></li>
     {% endfor %}
 </ul>
+<hr>
+<a href="{% url 'next_page:time' 3 57 30 %}">Time</a>
+<hr>
+<a href="{% url 'next_page:date' 20 9 10 %}">date</a>
+<hr>
+<a href="{% url 'next_page:date' year=20 month=9 day=10 %}">date</a>
+<hr>
+<a href="{% url 'next:happy_learn' %}">class</a>
+<hr>
+<ul>
+    {% for grade in grades %}
+    <li><a href="{% url 'next_page:get_grade_students' grade.id %}">{{ grade.g_grade }}</a></li>
+    {% endfor %}
+</ul>
+<hr>
+<a href="{% url 'next_page:happy_learn' %}">learn</a>
+<hr>
+<a href="{% url 'next:happy_learn' %}">learn</a>
+<hr>
 </body>
 </html>

@@ -19,5 +19,10 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('app/', include('app.urls')),
-    path('next/', include('next.urls'))
+    # 兩種寫法
+    # 1 pycharm html 無提示
+    # path('next/', include(('next.urls', 'next'), namespace='next_page')),
+    # 2 需再 app資料夾的 urls.py 新增一行 app_name = 'app名稱' pycharm html 就能有提示。
+    path('next/', include('next.urls', namespace='next_page')),
+    path('exercise/', include('exercise.urls', namespace='exercise'))
 ]

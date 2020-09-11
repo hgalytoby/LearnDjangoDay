@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>POST</title>
+</head>
+<body>
+<form action="{% url 'exercise:post_data' %}" method="POST">
+    <span>Username:</span>
+    <input type="text" name="username" placeholder="輸入用戶名" value="123">
+    <button>送出</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student List</title>
+</head>
+<body>
+<form action="{% url 'exercise:add_student' grade %}">
+    <td>姓名:</td>
+    <input type="text" value="" name="student">
+    <input type="submit" value="新增">
+</form>
+<hr>
+<ul>
+    {% for student in student_data %}
+    <form action="{% url 'exercise:del_student' %}">
+        <tr>
+            <td>{{ student.s_name }}</td>
+            <input type="hidden" value="{{ student.s_name }}" name="student">
+            <input type="hidden" value="{{ grade }}" name="grade">
+            <input type="submit" value="刪除" name="delete">
+        </tr>
+    </form>
+    {% endfor %}
+</ul>
+
+
+</body>
+</html>

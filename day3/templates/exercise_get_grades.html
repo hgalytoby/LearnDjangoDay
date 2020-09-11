@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get Grades</title>
+</head>
+<body>
+<ul>
+    {% for grades in grade_data %}
+    <div>
+        <td><a href="{% url 'exercise:get_student_list' grade=grades.g_name %}">{{ grades.g_name }}</a></td>
+    </div>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
