@@ -1,3 +1,4 @@
+import json
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 
@@ -33,8 +34,6 @@ def set_cookie(request):
 
 def get_cookie(request):
     cookies = request.COOKIES
-    import json
-
     # print(json.dumps(cookies))
     return HttpResponse(json.dumps(cookies))
 
@@ -45,16 +44,39 @@ def login(request):
 
 def do_login(request):
     user_name = request.POST.get('user_name')
-    response = HttpResponse('登入成功')
-    # response.set_cookie(key='user_name', value=user_name, max_age=60)
-    response.set_signed_cookie('content', user_name, 'dudulu')
+    # response = HttpResponse('登入成功')
+    response = redirect(reverse('app:mine'))
+    # 普通
+    # response.set_cookie(key='user_name', value=user_name, max_age=600)
+    # 普通 存中文
+    response.set_cookie(key='user_name', value=json.dumps(user_name), max_age=600)
+    # 加密
+    # response.set_signed_cookie('content', user_name, 'dudulu')
     return response
     # return redirect(reverse('app:mine'))
 
 
 def mine(request):
-    # user_name = request.COOKIES.get('user_name')
-    user_name = request.get_signed_cookie('coontent', salt='user_name')
-    if user_name:
-        return HttpResponse(user_name)
+    try:
+        # 普通
+        # user_name = request.COOKIES.get('user_name')
+        # 普通 存中文
+        user_name = json.loads(request.COOKIES.get('user_name'))
+        # 加密
+        # user_name = request.get_signed_cookie('content', salt='dudulu')
+        if user_name:
+            # return HttpResponse(user_name)
+            return render(request, 'mine.html', context={'user_name': user_name})
+    except (KeyError, TypeError):
+        print('取得 Cookies 失敗')
     return redirect(reverse('app:login'))
+
+
+def logout(request):
+    response = redirect(reverse('app:login'))
+    # 普通
+    response.delete_cookie('user_name')
+    # 加密
+    # response.delete_cookie('content')
+
+    return response

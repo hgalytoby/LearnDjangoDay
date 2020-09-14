@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Login</title>
+</head>
+<body>
+<form action="{% url 'again:student_login' %}" method="POST">
+    <span>用戶名:</span>
+    <input type="text" name="username" placeholder="請輸入用戶名">
+    <br>
+    <span>密碼:</span>
+    <input type="text" name="password" placeholder="請輸入密碼">
+    <br>
+    <button>送出</button>
+</form>
+</body>
+</html>

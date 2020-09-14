@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Again Login</title>
+</head>
+<body>
+<form action="{% url 'again:login' %}" method="POST">
+    <span>用戶:</span>
+    <input type="text" placeholder="請輸入用戶名" name="username">
+    <br>
+    <button>登入</button>
+</form>
+</body>
+</html>
