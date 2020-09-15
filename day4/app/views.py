@@ -39,6 +39,7 @@ def get_cookie(request):
 
 
 def login(request):
+    print('in')
     return render(request, 'login.html')
 
 

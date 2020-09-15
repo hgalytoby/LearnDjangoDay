@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '6@+qkdd7j=d%s+1h8uypgsj*jqu*g)emv0tkrc0903gqf@99m+'
+SECRET_KEY = '9aijlfhzrr*_h$68e#5*f3^uuz=r#fhi4@bz-d8op_vhyi^kmo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -55,7 +55,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            Path(BASE_DIR, 'templates'),
+            Path(BASE_DIR, 'templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -79,10 +79,10 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'DjangoView',
+        'NAME': 'DjangoModelDay5',
         'USER': 'root',
         'PASSWORD': 'dudulu739146',
-        'Host': 'localhost',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
@@ -116,7 +116,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

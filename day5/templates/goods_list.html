@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GoodsList</title>
+</head>
+<body>
+<ul>
+    {% for good in good_list %}
+    <li>商品名字:{{ good.g_name }} 商品ID:{{ good.id }}</li>
+    {% empty %}
+    <Label>無</Label>
+    {% endfor %}
+</ul>
+</body>
+</html>
