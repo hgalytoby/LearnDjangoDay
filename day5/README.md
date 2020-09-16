@@ -18,7 +18,7 @@
 	- 刪除遷移紀錄
 	
 
-模型關係
+## 模型關係
 - 1:1
 	- 應用場景
 		- 用於複雜表的拆分
@@ -84,16 +84,78 @@
 		- clear
 		- set
 	
--ManyRelatedManager
+- ManyRelatedManager
 	- 函數中定義的類
 	- 並且父類是一個參數
 	- 動態創建
 			
 			
+## 模型繼承
+- Django 中模型支持繼承
+- 默認繼承是會將通用字段放到附表中，特定字段放在自己的表中，中間使用外鍵鏈接
+	- 關係行資料庫關係越複雜，效率越低，查詢越慢。
+	- 父類表中也會儲存過多的資料。
+- 使用元訊息來解決這個問題
+	- 使模型抽象化。
+	- 抽象的模型就不會在資料庫中產生映射。
+	- 子模型映射出來的表直接包含父模型的字段。
+	- 在 Model 的原信息中添加 
+	```
+		class Meta:
+			abstract = True
+	```
+
+## 靜態資源
+- 使用的時候注意配置資源位置
+- STATICFILES_DIRS
+- 使用 {% load static %}
+- {% static '相對路徑' %}
+
+
+##文件上傳
+- 客戶端
+	- 必須使用POST
+	- 指定 enctype = 'multiplepart/form-data'
+- 原生
+	- 文件複製。
+	- 從 request.FILES 中獲取道上傳上來的文件。
+	- 打開一個文件，從上傳上來的文件進行讀取，像打開的文件中進行寫入。
+	- 每次寫入記得 flush。
+- Django 內置
+	- ImageField
+		- 依賴於 pillow
+		- 配置使用
+			- settings 中指定 MEDIA_ROOT
+			- 指定字段的 upload_to
+				- 相對於 MEDIA_ROOT 的路徑。
+				- 支持時間格式化
+					- %Y
+					- %m
+					- %d
+					- %h
+					- %...
+					
+					
+## 在企業開發中
+- model -> sql
+	- 都可以使用
+- sql -> model
+	- django 也提供了很多的支持
+	- Python manage.py inspectdb
+		- Python manage.py inspectdb > models.py 自動建立模型。
+		- 可以直接根據表生成模型，
+		- 元訊息中包含一個屬性 managed=False
+			- 如果自己的模型不想被遷移系統管理，也可以使用 managed=False。
 			
 			
-			
-			
+## requests
+- 請求庫
+- 實際上是 urllib 封裝
+	- Python 內置模塊
+- 使用場景
+	- 爬蟲
+	- MCS 架構
+		- 添加中間層伺服器
 			
 			
 			
