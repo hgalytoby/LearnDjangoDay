@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'dudulu',
     'app',
     'again',
     'django.contrib.admin',
@@ -123,6 +124,8 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIR = [
+STATICFILES_DIRS = [
     Path(BASE_DIR, 'static'),
 ]
+
+MEDIA_ROOT = Path(BASE_DIR, 'static/upload')

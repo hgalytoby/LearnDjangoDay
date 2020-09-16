@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload File</title>
+</head>
+<body>
+<form action="{% url 'dudulu:upload_file' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <span>文件:</span>
+    <input type="file" name="icon">
+    <br>
+    <input type="submit" value="上傳">
+</form>
+</body>
+</html>

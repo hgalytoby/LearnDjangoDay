@@ -16,4 +16,6 @@ urlpatterns = [
     path('add_goods/', views.add_goods, name='add_goods'),
     path('add_to_cart/', views.add_to_cart, name='add_to_cart'),
     path('get_good_list/<str:c_id>/', views.get_good_list, name='get_good_list'),
+    path('add_cat/', views.add_cat, name='add_cat'),
+    path('add_dog/', views.add_dog, name='add_dog'),
 ]

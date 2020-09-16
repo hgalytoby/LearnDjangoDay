@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Field</title>
+</head>
+<body>
+<form action="{% url 'dudulu:image_field' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <span>用戶名:</span>
+    <input type="text" name="username" placeholder="請輸入用戶名">
+    <br>
+    <span>頭像</span>
+    <input type="file" name="icon">
+    <br>
+    <input type="submit" value="上傳">
+</form>
+</body>
+</html>

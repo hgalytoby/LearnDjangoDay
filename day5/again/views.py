@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
-from again.models import Person, IDCard, Customer, Goods
+from again.models import Person, IDCard, Customer, Goods, Cat, Dog
 
 
 def hello(request):
@@ -87,3 +87,17 @@ def get_good_list(request, c_id):
     customer = Customer.objects.get(pk=c_id)
     good_list = customer.goods_set.all()
     return render(request, 'goods_list.html', {'good_list': good_list})
+
+
+def add_cat(request):
+    cat = Cat.objects.all()
+    num = cat.count()
+    cat.create(a_name=f'cat{num}', c_eat='bear')
+    return HttpResponse('cat ok')
+
+
+def add_dog(request):
+    dog = Dog.objects.all()
+    num = dog.count()
+    dog.create(a_name=f'dog{num}')
+    return HttpResponse('dog ok')

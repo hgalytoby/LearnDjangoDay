@@ -24,3 +24,26 @@ class Customer(models.Model):
 class Goods(models.Model):
     g_name = models.CharField(max_length=16)
     g_customer = models.ManyToManyField(Customer)
+
+
+class Animal(models.Model):
+    a_name = models.CharField(max_length=16)
+
+    class Meta:
+        abstract = True
+
+
+class Cat(Animal):
+    c_eat = models.CharField(max_length=16)
+
+
+class Dog(Animal):
+    d_legs = models.IntegerField(default=4)
+
+
+class Book(models.Model):
+    b_name = models.CharField(max_length=16, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'book'
