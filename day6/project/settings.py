@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import json
+import os
+
+data = json.load(open(f'{os.path.abspath(os.path.dirname(os.getcwd()))}\\important.json'))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -80,10 +84,70 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'DjangoCache',
         'USER': 'root',
-        'PASSWORD': 'dudulu739146',
+        'PASSWORD': data['SQL'],
         'HOST': 'localhost',
         'PORT': '3306',
     }
+}
+# # 內置
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION': 'my_cache_table',
+#         'TIMEOUT': '60' * 5,
+#     }
+# }
+
+# # 本地
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://127.0.0.1:6379/1',
+#          "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
+
+# # 雲端
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         # 'LOCATION': 'redis://your_host_ip:port',
+#         'LOCATION': data['redis_host'],
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#             # 'PASSWORD': 'password',
+#             'PASSWORD': data['redis_password'],
+#         }
+#     }
+# }
+
+# 多種緩存
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+        'TIMEOUT': '60' * 5,
+    },
+    'redis_host': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    'redis_drive': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        # 'LOCATION': 'redis://your_host_ip:port',
+        'LOCATION': data['redis_host'],
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            # 'PASSWORD': 'password',
+            'PASSWORD': data['redis_password'],
+        }
+    }
+
 }
 
 # Password validation
