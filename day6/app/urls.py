@@ -14,4 +14,7 @@ urlpatterns = [
     path('sequence_time/', views.sequence_time, name='sequence_time'),
     path('calc/', views.calc, name='calc'),
     path('login/', views.login, name='login'),
+    path('add_students/', views.add_students, name='add_students'),
+    path('get_students/', views.get_students, name='get_students'),
+    path('get_students_switch/', views.get_students_switch, name='get_students_switch'),
 ]

@@ -12,7 +12,7 @@ class HelloMiddle(MiddlewareMixin):
 
     def process_request(self, request):
         cache_mode = caches['redis_drive']
-        print(request.META.get('REMOTE_ADDR'))
+        # print(request.META.get('REMOTE_ADDR'))
         ip = request.META.get('REMOTE_ADDR')
         if ip == '127.0.0.1' and request.path == '/app/get_prize/':
             if random.randrange(100) > 50:
@@ -59,10 +59,12 @@ class HelloMiddle(MiddlewareMixin):
 
     def process_exception(self, request, exception):
         print('process_exception', request, exception)
-        return redirect(reverse('app:ip'))
+        pass
+        # return redirect(reverse('app:ip'))
 
 
 class AgainMiddle(MiddlewareMixin):
 
     def process_request(self, request):
-        print('AgainMiddle')
+        # print('AgainMiddle')
+        pass

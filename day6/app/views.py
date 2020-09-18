@@ -1,4 +1,5 @@
 from django.core.cache import cache, caches
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import time
@@ -8,6 +9,8 @@ import random
 from django.urls import reverse
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
+
+from app.models import Student
 
 
 def hello(request):
@@ -96,3 +99,44 @@ def login(request):
         return render(request, 'login.html')
     elif request.method == 'POST':
         return HttpResponse('POST ok')
+
+
+def add_students(request):
+    count = Student.objects.count()
+    for i in range(100):
+        Student.objects.create(s_name=f'dudulu{i + count}', s_age=15 + i)
+    return HttpResponse('add student ok')
+
+
+def get_students(request):
+    page = int(request.GET.get('page', default=1))
+    per_page = int(request.GET.get('per_page', default=10))
+    students = Student.objects.all()[(page - 1) * per_page:page * per_page]
+    return render(request, 'get_students.html', context=locals())
+
+
+def get_students_switch(request):
+    page = request.GET.get('page', default=1)
+    per_page = request.GET.get('per_page', default=10)
+    students = Student.objects.all()
+    paginator = Paginator(students, per_page)
+    page_object = paginator.page(page)
+    if 0 < page_object.number - 5 and page_object.number + 5 < paginator.num_pages + 1:
+        total_page = range(page_object.number - 5, page_object.number + 5)
+    elif page_object.number + 5 > paginator.num_pages:
+        num = page_object.number + 5 - paginator.num_pages
+        total_page = range(page_object.number - 5 - num, paginator.num_pages + 1)
+    else:
+        # num = page_object.number - 5 + paginator.num_pages
+        total_page = range(1, 11)
+    # if 10 < paginator.num_pages < page_object.number + 10:
+    #     total_page = range(paginator.num_pages-10, paginator.num_pages+1)
+    #     # else:
+    #     #     total_page = range(page_object.number, paginator.num_pages+10)
+    # else:
+    #     total_page = range(page_object.number, paginator.num_pages + 10)
+    # print(total_page)
+    data = {'page_object': page_object,
+            'page_range': total_page}
+
+    return render(request, 'get_students_switch.html', context=data)

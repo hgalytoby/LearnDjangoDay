@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get Students Switch</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+</head>
+<body>
+<ul>
+    {% for student in page_object.object_list %}
+    <li>{{ student.s_name }}</li>
+    {% endfor %}
+</ul>
+
+<ul>
+    {% for page_index in page_range %}
+    <li><a href="{% url 'app:get_students_switch' %}?page={{ page_index }}">{{ page_index }}</a></li>
+    {% endfor %}
+</ul>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            {% if page_object.has_previous %}
+        <li>
+            <a href="{% url 'app:get_students_switch' %}?page={{ page_object.previous_page_number }}">&laquo;</a>
+        </li>
+        {% else %}
+        <li class="disabled"><a href="">&laquo;</a></li>
+        {% endif %}
+
+        {% for page_index in page_range %}
+        {% ifequal page_index page_object.number %}
+        <li class="active"><a href="">{{ page_index }}</a></li>
+        {% else %}
+        <li><a href="{% url 'app:get_students_switch' %}?page={{ page_index }}">{{ page_index }}</a></li>
+        {% endifequal %}
+        {% endfor %}
+
+        {% if page_object.has_next %}
+        <li><a href="{% url 'app:get_students_switch' %}?page={{ page_object.next_page_number }}">&raquo;</a></li>
+        {% else %}
+        <li class="disabled"><a href="" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+        {% endif %}
+        </li>
+    </ul>
+</nav>
+
+
+</body>
+</html>
