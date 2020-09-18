@@ -9,6 +9,7 @@
     {% for news in news_list %}
     <li>{{ news }}</li>
     {% endfor %}
+    <li><a href="{% url  'app:calc' %}">計算連結</a></li>
 </ul>
 </body>
 </html>

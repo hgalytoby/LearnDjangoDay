@@ -12,6 +12,41 @@
 	- 提供緩存擴展接口。
 	
 	
+## AOP 中間件
+- 實現統計功能
+	- 統計IP
+	- 統計瀏覽器
+- 實現權重控制
+	- 黑名單 
+	- 白名單
+-實現反爬
+	- 反爬蟲
+		- 十秒之內
+	- 實現頻率控制
+- 介面友好化
+- 應用交互友好化
+
+
+## 中間件
+- 調用順序
+	- 中間件註冊的時候是一個列表。
+	- 如果沒有在切點處直接進行返回，中間件會依次執行。
+	- 如果直接進行了返回，後續的中間件就不再執行了。
+- 切點
+	- process_request
+	- process_view
+	- process_template_reponse
+	- process_response
+	- precess_exeption
+- 切面
+
+
+
+
+
+
+	
+	
 ## 緩存配置  
 - 1. 創建緩存表  
 	- python manage.py createcachetable [table_name]  
