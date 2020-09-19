@@ -1,3 +1,7 @@
+from io import BytesIO
+
+from PIL import Image, ImageDraw, ImageFont
+from django.conf import settings
 from django.core.cache import cache, caches
 from django.core.paginator import Paginator
 from django.http import HttpResponse
@@ -121,22 +125,40 @@ def get_students_switch(request):
     students = Student.objects.all()
     paginator = Paginator(students, per_page)
     page_object = paginator.page(page)
+    all_page = paginator.page_range
     if 0 < page_object.number - 5 and page_object.number + 5 < paginator.num_pages + 1:
         total_page = range(page_object.number - 5, page_object.number + 5)
     elif page_object.number + 5 > paginator.num_pages:
-        num = page_object.number + 5 - paginator.num_pages
-        total_page = range(page_object.number - 5 - num, paginator.num_pages + 1)
+        total_page = range(paginator.num_pages - 9, paginator.num_pages + 1)
     else:
-        # num = page_object.number - 5 + paginator.num_pages
         total_page = range(1, 11)
-    # if 10 < paginator.num_pages < page_object.number + 10:
-    #     total_page = range(paginator.num_pages-10, paginator.num_pages+1)
-    #     # else:
-    #     #     total_page = range(page_object.number, paginator.num_pages+10)
-    # else:
-    #     total_page = range(page_object.number, paginator.num_pages + 10)
-    # print(total_page)
     data = {'page_object': page_object,
-            'page_range': total_page}
-
+            'page_range': total_page,
+            'page_start': paginator.page_range.start,
+            'page_end': paginator.page_range.stop - 1}
     return render(request, 'get_students_switch.html', context=data)
+
+
+def get_code(request):
+    # 初始化畫布
+    image = Image.new(mode='RGB', size=(220, 100), color=get_color())
+    # 初始化畫筆
+    image_draw = ImageDraw.Draw(image, mode='RGB')
+    image_font = ImageFont.truetype(font=str(settings.FONT_PATH), size=90, encoding="unic")
+
+    image_draw.text(xy=(10, 0), text=verify_code(), font=image_font, fill=get_color())
+    fp = BytesIO()
+    image.save(fp=fp, format='png')
+    return HttpResponse(fp.getvalue(), content_type='image/png')
+
+
+def verify_code():
+    result = str()
+    data = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    for i in range(random.randint(4, 6)):
+        result += random.choice(data)
+    return result
+
+
+def get_color():
+    return random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)

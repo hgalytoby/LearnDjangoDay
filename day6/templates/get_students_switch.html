@@ -18,7 +18,7 @@
 <body>
 <ul>
     {% for student in page_object.object_list %}
-    <li>{{ student.s_name }}</li>
+        <li>{{ student.s_name }}</li>
     {% endfor %}
 </ul>
 
@@ -31,13 +31,16 @@
 <nav aria-label="Page navigation example">
     <ul class="pagination">
         <li class="page-item">
+
             {% if page_object.has_previous %}
         <li>
             <a href="{% url 'app:get_students_switch' %}?page={{ page_object.previous_page_number }}">&laquo;</a>
         </li>
         {% else %}
         <li class="disabled"><a href="">&laquo;</a></li>
+
         {% endif %}
+        <li><a href="{% url 'app:get_students_switch' %}?page={{ page_start }}">第一頁</a></li>
 
         {% for page_index in page_range %}
         {% ifequal page_index page_object.number %}
@@ -47,12 +50,17 @@
         {% endifequal %}
         {% endfor %}
 
+        <li><a href="{% url 'app:get_students_switch' %}?page={{ page_end }}">最後一頁</a></li>
+
         {% if page_object.has_next %}
+
         <li><a href="{% url 'app:get_students_switch' %}?page={{ page_object.next_page_number }}">&raquo;</a></li>
         {% else %}
+
         <li class="disabled"><a href="" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+
         {% endif %}
-        </li>
+
     </ul>
 </nav>
 
