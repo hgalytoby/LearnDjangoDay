@@ -144,9 +144,14 @@ def get_code(request):
     image = Image.new(mode='RGB', size=(220, 100), color=get_color())
     # 初始化畫筆
     image_draw = ImageDraw.Draw(image, mode='RGB')
+    # 字形 + 字體大小
     image_font = ImageFont.truetype(font=str(settings.FONT_PATH), size=90, encoding="unic")
-
+    # 畫字
     image_draw.text(xy=(10, 0), text=verify_code(), font=image_font, fill=get_color())
+    # 畫點 混淆
+    for i in range(5000):
+        image_draw.point(xy=(random.randrange(220), random.randrange(100)), fill=get_color())
+
     fp = BytesIO()
     image.save(fp=fp, format='png')
     return HttpResponse(fp.getvalue(), content_type='image/png')
