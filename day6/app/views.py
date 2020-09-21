@@ -15,6 +15,7 @@ from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 
 from app.models import Student
+from utils import get_verify_code, get_color
 
 
 def hello(request):
@@ -102,7 +103,9 @@ def login(request):
     if request.method == 'GET':
         return render(request, 'login.html')
     elif request.method == 'POST':
-        return HttpResponse('POST ok')
+        if request.session['verify_code'] == request.POST.get('verify_code'):
+            return HttpResponse('POST ok')
+        return redirect(reverse('app:login'))
 
 
 def add_students(request):
@@ -141,29 +144,23 @@ def get_students_switch(request):
 
 def get_code(request):
     # 初始化畫布
-    image = Image.new(mode='RGB', size=(220, 100), color=get_color())
+    image = Image.new(mode='RGB', size=(200, 100), color=get_color())
     # 初始化畫筆
     image_draw = ImageDraw.Draw(image, mode='RGB')
     # 字形 + 字體大小
-    image_font = ImageFont.truetype(font=str(settings.FONT_PATH), size=90, encoding="unic")
+    image_font = ImageFont.truetype(font=str(settings.FONT_PATH), size=50, encoding="unic")
+    # 取得驗證碼
+    verify_code = get_verify_code()
+    # 存 session
+    request.session['verify_code'] = verify_code
     # 畫字
-    image_draw.text(xy=(10, 0), text=verify_code(), font=image_font, fill=get_color())
+    image_draw.text(xy=(10, 25), text=verify_code, font=image_font, fill=get_color())
     # 畫點 混淆
-    for i in range(5000):
+    for i in range(2500):
         image_draw.point(xy=(random.randrange(220), random.randrange(100)), fill=get_color())
+    # 畫線
+    # image_draw.line(xy=((100, 50), (50, 0)), fill=get_color(), width=7)
 
     fp = BytesIO()
     image.save(fp=fp, format='png')
     return HttpResponse(fp.getvalue(), content_type='image/png')
-
-
-def verify_code():
-    result = str()
-    data = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    for i in range(random.randint(4, 6)):
-        result += random.choice(data)
-    return result
-
-
-def get_color():
-    return random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)

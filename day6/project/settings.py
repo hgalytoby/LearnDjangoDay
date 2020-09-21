@@ -192,4 +192,4 @@ STATICFILES_DIRS = [
     Path(BASE_DIR, 'static')
 ]
 
-FONT_PATH = Path(BASE_DIR, 'static/fonts/FREESCPT.TTF')
+FONT_PATH = Path(BASE_DIR, 'static/fonts/arial.TTF')

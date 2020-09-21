@@ -1,12 +1,19 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/login.js' %}"></script>
 </head>
 <body>
 <form action="{% url 'app:login' %}" method="POST">
     <span>用戶名:</span><input type="text" name="username" placeholder="輸入請用戶名">
+    <br>
+    <span>驗證碼:</span><input type="text" name="verify_code" placeholder="請輸入驗證碼">
+    <br>
+    <img src="{% url 'app:get_code' %}" title="code">
     <br>
     <button>提交</button>
 </form>

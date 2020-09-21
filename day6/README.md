@@ -34,17 +34,79 @@
 	- 如果直接進行了返回，後續的中間件就不再執行了。
 - 切點
 	- process_request
+		- 統計、打印。
+		- 優先級調度
+			- 黑名單
+			- 白名單
+		- 反爬、頻率控制
+			- N 時間段之內只能請求一次
+			- 單位時間之內最多訪問 N 次
+				- 我們需要紀錄每次請求時間。
+				- 資料結構 key-value value = []。
+				- 在判斷資單位時間請求次數的時候，判斷是列表長度。
+				- 在判斷之前進行簡單的資料清洗。
 	- process_view
+		- CSRF
+		- 首先判斷了兩個豁免條件
+		- 判斷請求是否安全
+		- POST 請求如何驗證 CSRF
+			- 在 request.POST.get('csrftokenmiddleware')
+			- 驗證和請求對應的 token 是否正確
 	- process_template_reponse
 	- process_response
+		- 跨域處理
+			- ip 和 端口不一致，只要有一個不一樣就是不一樣。
+			- 跨域的行為校驗是瀏覽器行為。
+			- 實現領域
+				- 伺服器端添加屬性允許所有域名訪問
+				- 在客戶端偽裝
+		- 對響應進行統一處理
 	- precess_exeption
 - 切面
 
 
-
-
-
-
+## Paginator
+- 對象創建
+	- Paginator(資料集，每一頁資料集)
+- 屬性
+	- count 
+		- 對象總數。
+	- num_pages
+		- 頁面總碼。
+	- page_range
+		- 頁碼列表，從 1 開始。
+- 方法
+	- page(整數)
+		- 獲得一個 page 對象。
+- 常見錯誤
+	- InavliPage
+		- page() 傳送無效頁碼。
+	- PageNotAnlnteger
+		- page() 傳送的不是整數。
+	- Empty
+		- page() 傳送的值有效，但是沒有資料。
+- Page
+	- 對象獲得，通過 Paginator 的 page() 方法獲得。
+- 屬性
+	- object_list
+		- 當前頁面上所有的資料對象。
+	- number 
+		- 當前頁的頁碼值。
+	- paginator
+		- 當前 page 關聯的 Paginator 對象。
+- 方法
+	- has_next()
+		- 判斷是否有下一頁
+	- has_previous()
+		- 判斷是否有上一頁
+	- has_other_page()
+		- 判斷是否有上一頁或下一頁
+	- next_page_number()
+		- 返回下一頁的頁碼
+	- previous_page_number()
+		- 返回上一頁的頁碼
+	- len()
+		- 返回當前頁的資料的個數
 	
 	
 ## 緩存配置  
@@ -127,7 +189,48 @@
 - 用法和內置緩存使用一樣
 
 
-
+## 驗證碼
+- 防止惡意用戶，驗證是個人類
+- 原生繪製
+	- pillow
+		- Image
+			- 尺寸
+			- 顏色
+			- 模式
+				- RGB
+		- ImageDraw
+			- 屬於哪一個畫布
+			- 畫完的東西在哪
+			- 封裝繪製 API
+				- 文字
+				- 點
+				- 線
+				- 弧
+		- ImageFont
+			- 畫筆的輔助工具
+			- 字體
+			- 設定繪製的樣式
+- 需要將畫布轉換成二進制流，並且添加格式限定
+- 內存流
+	- BytesIO
+	- 將圖片存到內存中
+	- 從流中獲取到資料值
+- 通過 HttpResponse 返回圖片內容
+	- content_type
+	- MIME
+		- 標示打開資料的一個應用程序。
+		- image/png
+- 驗證碼
+	- 客戶端驗證
+	- 服務端驗證
+		- 驗證碼生成的時候，儲存驗證碼。
+		- 在提交的時候驗證驗證碼的有效性。
+- 驗證碼刷新
+	- 瀏覽器緩存策略
+		- 是以 URL 為標示。
+	- 解決方案
+		- 每次給不同的地址。
+		- 對地址進行一個參數拼接，每次傳遞不同的參數。
 
 
 
