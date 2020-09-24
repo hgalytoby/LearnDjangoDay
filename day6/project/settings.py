@@ -34,6 +34,8 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'app',
+    # 'werkzeug_debugger_runserver',
+    # 'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -192,4 +194,6 @@ STATICFILES_DIRS = [
     Path(BASE_DIR, 'static')
 ]
 
-FONT_PATH = Path(BASE_DIR, 'static/fonts/arial.TTF')
+FONT_PATH = Path(BASE_DIR, 'static/fonts/msjh.ttc')
+
+# SECURE_SSL_REDIRECT = True

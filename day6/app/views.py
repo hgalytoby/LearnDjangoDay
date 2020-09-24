@@ -164,3 +164,23 @@ def get_code(request):
     fp = BytesIO()
     image.save(fp=fp, format='png')
     return HttpResponse(fp.getvalue(), content_type='image/png')
+
+
+def signature_file(request):
+    image = Image.new(mode='RGB', size=(660, 125), color=get_color())
+    # image = Image.open(fp=r'image_path')
+    image_draw = ImageDraw.Draw(image)
+    image_font = ImageFont.truetype(font=str(settings.FONT_PATH), size=50)
+    for k, v in request.META.items():
+        print(k, v)
+    # print(request.M)
+    ip = f'你的 IP:{request.META["REMOTE_ADDR"]}'
+    browser = request.META["HTTP_USER_AGENT"]
+    # user_name = f'你的電腦名稱: {request.META["USERNAME"]}'
+    # image_draw.text(xy=(250, 0), text='hello', font=image_font, fill=get_color())
+    print(f'ip: {ip}')
+    image_draw.text(xy=(100, 0), text=ip, font=image_font, fill=get_color())
+    # image_draw.text(xy=(100, 50), text=user_name, font=image_font, fill=get_color())
+    fp = BytesIO()
+    image.save(fp=fp, format='png')
+    return HttpResponse(fp.getvalue(), content_type='image/png')

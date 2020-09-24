@@ -18,4 +18,5 @@ urlpatterns = [
     path('get_students/', views.get_students, name='get_students'),
     path('get_students_switch/', views.get_students_switch, name='get_students_switch'),
     path('get_code/', views.get_code, name='get_code'),
+    path('signature_file/', views.signature_file, name='signature_file'),
 ]
