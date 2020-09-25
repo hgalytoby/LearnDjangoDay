@@ -46,6 +46,95 @@
         </ul>
         <div class="swiper-pagination"></div>
     </div>
+
+    {# 首頁商品 #}
+    <div class="shop_container">
+        <h2>
+            <img src="{{ main_shop_0_1.0.img }}" alt="{{ main_shop_0_1.0.name }}">
+        </h2>
+        <fieldset>
+            {% for main_shop in main_shop_1_3 %}
+            <a href="#">
+                <img src="{{ main_shop.img }}" alt="{{ main_shop.name }}">
+
+            </a>
+            {% endfor %}
+        </fieldset>
+        <ul>
+            {% for main_shop in main_shop_3_7 %}
+            <li>
+                <img src="{{ main_shop.img }}" alt="{{ main_shop.name }}">
+                <span>{{ main_shop.name }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        <ol>
+            {% for main_shop in main_shop_7_11 %}
+            <li>
+                <a href="#">
+                    <img src="{{ main_shop.img }}" alt="{{ main_shop.name }}">
+                </a>
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
+
+    {# 首頁主顯示 #}
+    {#
+    <ul>#}
+        {% for main_show in main_shows %}
+        <div class="mainInfo">
+            <section>
+                <h3>{{ main_show.name }}
+                    <a href="#">更多&gt;</a>
+                    <span></span>
+                </h3>
+                <div>
+                    <a href="#">
+                        <img src="{{ main_show.img }}" alt="{{ main_show.name }}">
+                    </a>
+                </div>
+                <ul>
+                    <li>
+                        <a href="#">
+                            <img src="{{ main_show.img1 }}" alt="{{ main_show.longname1 }}">
+                            <p class="description">{{ main_show.longname1 }}</p>
+                            <span>{{ main_show.price1 }}</span><s>{{ main_show.marketprice1 }}</s>
+                        </a>
+                        <button>
+                            <span>+</span>
+                        </button>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="{{ main_show.img2 }}" alt="{{ main_show.longname2 }}">
+                            <p class="description">{{ main_show.longname2 }}</p>
+                            <span>{{ main_show.price2 }}</span><s>{{ main_show.marketprice2 }}</s>
+                        </a>
+                        <button>
+                            <span>+</span>
+                        </button>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="{{ main_show.img3 }}" alt="{{ main_show.longname3 }}">
+                            <p class="description">{{ main_show.longname3 }}</p>
+                            <span>{{ main_show.price3 }}</span><s>{{ main_show.marketprice3 }}</s>
+                        </a>
+                        <button>
+                            <span>+</span>
+                        </button>
+                    </li>
+                </ul>
+
+            </section>
+        </div>
+        {% endfor %}
+        {#
+    </ul>
+    #}
+
+
 </div>
 
 {% endblock %}

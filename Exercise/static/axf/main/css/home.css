@@ -78,72 +78,74 @@ footer .home dd {
     width: 100%;
 }
 
-/*
-#swiperMenu li{
-  width:3.333333rem
-}*/
 #swiperMenu li img {
     width: 100%;
 }
 
+/*
+    首頁商品
+*/
 
-.CVS {
+.shop_container {
     background: white;
 }
 
-.CVS h2 img {
-    width: 100%;
+.shop_container h2 img {
+    width: 25%;
 }
 
 
-.CVS fieldset {
+.shop_container fieldset {
     border: none;
     padding: 0;
 }
 
-.CVS fieldset > a {
+.shop_container fieldset > a {
     display: inline-block;
     width: 49%;
 }
 
-.CVS fieldset img {
-    width: 100%;
+.shop_container fieldset img {
+    width: 75%;
 }
 
 
-.CVS ul {
+.shop_container ul {
     display: flex;
 }
 
-.CVS ul li {
+.shop_container ul li {
     width: 2.5rem;
     text-align: center;
     font-size: 0.35rem;
 }
 
-.CVS ul li img {
+.shop_container ul li img {
     width: 2.5rem;
 }
 
 
-.CVS ol {
+.shop_container ol {
     display: flex;
     flex-wrap: wrap;
 }
 
-.CVS ol li {
+.shop_container ol li {
     list-style: none;
     width: 5rem;
 }
 
-.CVS > ol a {
+.shop_container > ol a {
     display: block;
 }
 
-.CVS ol a img {
+.shop_container ol a img {
     width: 100%;
 }
 
+/*
+    首頁主顯示
+*/
 
 .mainInfo {
     background-color: white;
@@ -193,12 +195,18 @@ footer .home dd {
 .mainInfo > section > ul > li {
     width: 2.6rem;
     position: relative;
+    margin-top: 0.1rem;
 }
 
 .mainInfo > section > ul > li > a {
     font-size: 0.4rem;
     color: red;
     display: block;
+}
+
+.mainInfo > section > ul > li > a > span:before {
+    color: red;
+    content: "NT$";
 }
 
 .mainInfo > section > ul > li > a > img {
@@ -208,6 +216,11 @@ footer .home dd {
 .mainInfo > section > ul > li > a > s {
     color: grey;
     font-size: 0.3rem;
+}
+
+.mainInfo > section > ul > li > a > s:before {
+    color: grey;
+    content: "NT$";
 }
 
 .mainInfo .description {
@@ -227,16 +240,16 @@ footer .home dd {
 .mainInfo > section > ul > li > button {
     border: 1px solid lightgrey;
     border-radius: 1111px;
-    width: 0.8rem;
-    height: 0.8rem;
+    width: 0.5rem;
+    height: 0.5rem;
     display: block;
     line-height: 0.0rem;
     text-align: center;
     color: orangered;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     position: absolute;
     right: 0;
-    top: 3.6rem;
+    top: 4.3rem;
     background: white;
 }
 
