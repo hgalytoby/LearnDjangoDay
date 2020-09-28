@@ -1,8 +1,10 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
-from app.models import MainWheel, MainNav, MainMustBuy, MainShop, MainShow, FoodType
+from django.urls import reverse
+
+from app.models import MainWheel, MainNav, MainMustBuy, MainShop, MainShow, FoodType, Goods
 
 
 def home(request):
@@ -29,12 +31,38 @@ def home(request):
 
 
 def market(request):
-    foodtypes = FoodType.objects.all()
+    return redirect(reverse('axf:market_with_params', kwargs={'typeid': 104749, 'childcid': 0}))
 
+
+def market_with_params(request, typeid, childcid):
+    foodtypes = FoodType.objects.all()
+    all_type = '0'
+    if childcid == all_type:
+        goods_list = Goods.objects.filter(categoryid=typeid)
+    else:
+        goods_list = Goods.objects.filter(categoryid=typeid, childcid=childcid)
+
+    """
+    全部分類:0#進口水果:103534#國產水果:103533
+    切割 #
+        [全部分類:0, 進口水果:103534, 國產水果:103533]
+    切割 :
+        [[全部分類,0], [進口水果, 103534], [國產水果, 103533]]]
+    """
+
+    foodtype_childnames = foodtypes.get(typeid=typeid).childtypenames
+    foodtype_childname_list = list()
+    for i in foodtype_childnames.split('#'):
+        foodtype_childname_list.append(i.split(':'))
     data = {
         'title': '超市',
+        'foodtypes': foodtypes,
+        'goods_list': goods_list,
+        'typeid': typeid,
+        'foodtype_childname_list': foodtype_childname_list,
+        'childcid': childcid,
     }
-    return render(request, 'main/market.html')
+    return render(request, 'main/market.html', context=data)
 
 
 def cart(request):

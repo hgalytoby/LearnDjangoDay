@@ -80,8 +80,8 @@
     </div>
 
     {# 首頁主顯示 #}
-    {#
-    <ul>#}
+
+    <ul>
         {% for main_show in main_shows %}
         <div class="mainInfo">
             <section>
@@ -130,10 +130,7 @@
             </section>
         </div>
         {% endfor %}
-        {#
     </ul>
-    #}
-
 
 </div>
 
@@ -141,7 +138,6 @@
 
 {% block ext_js %}
 {{ block.super }}
-<script type="text/javascript" src="{% static 'js/swiper.jquery.js' %}"></script>
 <script type="text/javascript" src="{% static 'axf/main/js/home.js' %}"></script>
 
 {% endblock %}
