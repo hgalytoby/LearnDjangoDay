@@ -13,8 +13,8 @@
         <ul>
             {% for foodtype in foodtypes %}
             <li>
-                <a href="{% url 'axf:market_with_params' typeid=foodtype.typeid childcid=0 %}">{{ foodtype.typename
-                    }}</a>
+                <a href="{% url 'axf:market_with_params' typeid=foodtype.typeid childcid=0 order_rule=0 %}">
+                    {{ foodtype.typename}}</a>
                 {% ifequal foodtype.typeid typeid %}
                 <span class="yellowSlide"></span>
                 {% endifequal %}
@@ -70,7 +70,7 @@
                 <div id="all_types_container">
                     <div>
                         {% for foodtype_childname in foodtype_childname_list %}
-                        <a href="{% url 'axf:market_with_params' typeid=typeid childcid=foodtype_childname.1 %}">
+                        <a href="{% url 'axf:market_with_params' typeid=typeid childcid=foodtype_childname.1 order_rule=0 %}">
                             {% ifequal childcid foodtype_childname.1 %}
                             <button class="btn btn-success">{{ foodtype_childname.0 }}</button>
                             {% else %}
@@ -82,12 +82,14 @@
                 </div>
                 <div id="sort_rule_container">
                     <div>
-                        <a href="#">
-                            <button class="btn btn-success">綜合排序</button>
-                        </a>
-                        <a href="#">
-                            <button class="btn btn-default">價格降序</button>
-                        </a>
+                        {% for mode, order in order_mode.items %}
+                        <a href="{% url 'axf:market_with_params' typeid=typeid childcid=childcid order_rule=mode %}">
+                            {% ifequal order_rule mode%}
+                            <button class="btn btn-success">{{ order }}</button>
+                            {% else %}
+                            <button class="btn btn-default">{{ order }}</button>
+                            {% endifequal %}
+                            {% endfor %}
                     </div>
                 </div>
             </menu>

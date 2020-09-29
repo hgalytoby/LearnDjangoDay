@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.urls import reverse
 
-from app.models import MainWheel, MainNav, MainMustBuy, MainShop, MainShow, FoodType, Goods
+from app.models import MainWheel, MainNav, MainMustBuy, MainShop, MainShow, FoodType, Goods, AXFUser
 
 
 def home(request):
@@ -31,16 +31,32 @@ def home(request):
 
 
 def market(request):
-    return redirect(reverse('axf:market_with_params', kwargs={'typeid': 104749, 'childcid': 0}))
+    return redirect(reverse('axf:market_with_params', kwargs={'typeid': 104749, 'childcid': 0, 'order_rule': 0}))
 
 
-def market_with_params(request, typeid, childcid):
+def market_with_params(request, typeid, childcid, order_rule):
     foodtypes = FoodType.objects.all()
     all_type = '0'
+    order_mode = {'0': '全部類型',
+                  '1': '價錢升序',
+                  '2': '價錢降序',
+                  '3': '銷量升序',
+                  '4': '銷量降序', }
     if childcid == all_type:
         goods_list = Goods.objects.filter(categoryid=typeid)
     else:
         goods_list = Goods.objects.filter(categoryid=typeid, childcid=childcid)
+
+    if order_mode[order_rule] == '全部類型':
+        pass
+    elif order_mode[order_rule] == '價錢升序':
+        goods_list = goods_list.order_by('price')
+    elif order_mode[order_rule] == '價錢降序':
+        goods_list = goods_list.order_by('-price')
+    elif order_mode[order_rule] == '銷量升序':
+        goods_list = goods_list.order_by('productnum')
+    elif order_mode[order_rule] == '銷量降序':
+        goods_list = goods_list.order_by('-productnum')
 
     """
     全部分類:0#進口水果:103534#國產水果:103533
@@ -61,6 +77,8 @@ def market_with_params(request, typeid, childcid):
         'typeid': typeid,
         'foodtype_childname_list': foodtype_childname_list,
         'childcid': childcid,
+        'order_rule': order_rule,
+        'order_mode': order_mode,
     }
     return render(request, 'main/market.html', context=data)
 
@@ -71,3 +89,23 @@ def cart(request):
 
 def mine(request):
     return render(request, 'main/mine.html')
+
+
+def register(request):
+    if request.method == 'GET':
+        data = {
+            'title': '註冊'
+        }
+        return render(request, 'user/register.html', context=data)
+    elif request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        icon = request.FILES.get('icon')
+        user = AXFUser()
+        user.u_user = username
+        user.u_password = password
+        user.u_email = email
+        user.u_icon = icon
+        user.save()
+        return HttpResponse('register ok')
