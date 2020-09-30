@@ -1,6 +1,7 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 # Create your views here.
 from django.urls import reverse
 
@@ -108,4 +109,60 @@ def register(request):
         user.u_email = email
         user.u_icon = icon
         user.save()
-        return HttpResponse('register ok')
+        return redirect(reverse('axf:login'))
+
+
+def login(request):
+    if request.method == 'GET':
+        data = {
+            'title': '登入'
+        }
+        return render(request, 'user/login.html', context=data)
+    elif request.method == 'POST':
+        username = request.POST.get('user_input')
+        password = request.POST.get('password_input')
+        u_user = AXFUser.objects.filter(u_user=username)
+        if u_user.exists():
+            if u_user.filter(u_password=password).exists():
+                return
+    return HttpResponse('login ok')
+
+
+def check_user(request):
+    username = request.GET.get('username')
+    user = AXFUser.objects.filter(u_user=username)
+    user_exist = 901
+    user_ok = 200
+    data = {
+        'status': user_ok,
+        'msg': 'user can use',
+    }
+    if user.exists():
+        data['status'] = user_exist
+        data['msg'] = 'user already'
+    return JsonResponse(data)
+
+
+def check_email(request):
+    email_type = {
+        'ok': 200,
+        'error': 902,
+        'exists': 903,
+    }
+    data = {
+        'status': email_type['ok'],
+        'msg': 'email can use',
+    }
+    email = request.GET.get('email')
+    try:
+        validate_email(email)
+    except ValidationError as e:
+        data['status'] = email_type['error']
+        data['msg'] = 'email error'
+        return JsonResponse(data)
+    email_db = AXFUser.objects.filter(u_email=email)
+    if email_db.exists():
+        data['status'] = email_type['exists']
+        data['msg'] = 'email exists'
+        return JsonResponse(data)
+    return JsonResponse(data)
