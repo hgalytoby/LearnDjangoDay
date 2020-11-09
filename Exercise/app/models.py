@@ -121,11 +121,12 @@ class Goods(models.Model):
 
 class AXFUser(models.Model):
     u_user = models.CharField(max_length=32, unique=True)
-    u_password = models.CharField(max_length=32)
+    u_password = models.CharField(max_length=128)
     u_email = models.EmailField(max_length=64, unique=True)
     u_icon = models.ImageField(upload_to='icons/%Y/%m/%d/')
     is_active = models.BooleanField(default=False)
     is_delete = models.BooleanField(default=False)
 
-    class Meat:
-        db_table = 'axf_user'
+    class Meta:
+        db_table = 'axf_users'
+

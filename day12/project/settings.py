@@ -9,13 +9,11 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 import json
-import os
 
 data = json.load(open(f'{os.path.abspath(os.path.dirname(os.getcwd()))}\\important.json'))
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '1bbqx8c8#dvicnwyfy^2fbl*iy-r#lhz#7edfg=9arguolsv2m'
+SECRET_KEY = '#l(epa3z$9stkbu#$_2+honi*tj_wo5spsr^bogn(4i%y+oi*-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -33,20 +31,16 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'app',
-    # 'werkzeug_debugger_runserver',
-    # 'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Api'
 ]
 
 MIDDLEWARE = [
-    'middleware.LearMiddle.HelloMiddle',
-    'middleware.LearMiddle.AgainMiddle',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -83,74 +77,13 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'DjangoCache',
-        'USER': 'root',
-        'PASSWORD': data['SQL'],
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'django-rest',
+        'USER': 'postgres',
+        'PASSWORD': data['localhost_postgresql'],
         'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
-# # 內置
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-#         'LOCATION': 'my_cache_table',
-#         'TIMEOUT': '60' * 5,
-#     }
-# }
-
-# # 本地
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django_redis.cache.RedisCache',
-#         'LOCATION': 'redis://127.0.0.1:6379/1',
-#          "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#         }
-#     }
-# }
-
-# # 雲端
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django_redis.cache.RedisCache',
-#         # 'LOCATION': 'redis://your_host_ip:port',
-#         'LOCATION': data['redis_host'],
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#             # 'PASSWORD': 'password',
-#             'PASSWORD': data['redis_password'],
-#         }
-#     }
-# }
-
-# 多種緩存
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'my_cache_table',
-        'TIMEOUT': '60' * 5,
+        'PORT': '5432',
     },
-    'redis_host': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    },
-    'redis_drive': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        # 'LOCATION': 'redis://your_host_ip:port',
-        'LOCATION': data['redis_host'],
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            # 'PASSWORD': 'password',
-            'PASSWORD': data['redis_password'],
-        }
-    }
 }
 
 # Password validation
@@ -174,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'zh-Hant'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Taipei'
 
@@ -192,7 +125,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     Path(BASE_DIR, 'static')
 ]
-
-FONT_PATH = Path(BASE_DIR, 'static/fonts/msjh.ttc')
-
-# SECURE_SSL_REDIRECT = True
