@@ -16,7 +16,7 @@ def upload_file(request):
         print(request.FILES.get('icon'))
         icon = request.FILES.get('icon')
         print(icon)
-        with open(f'./static/img/{icon}', 'w') as files:
+        with open(f'./static/img/{icon}', 'wb') as files:
             for i in icon.chunks():
                 files.write(i)
                 files.flush()
@@ -45,3 +45,18 @@ def mine(request):
         'icon_url': f'/static/upload/{icon_url}',
     }
     return render(request, 'mine.html', context=data)
+
+
+def update_icon(request):
+    if request.method == 'GET':
+        return render(request, 'update_icon.html')
+    elif request.method == 'POST':
+
+        user_name = request.POST.get('username')
+        icon = request.FILES.get('icon')
+        user = UserModel.objects.get(u_name=user_name)
+        print(user.u_icon)
+        user.u_icon.delete()
+        user.u_icon = icon
+        user.save()
+        return HttpResponse(f'image_field ok {user.id}')

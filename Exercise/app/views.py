@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password, check_password
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
@@ -6,6 +7,7 @@ from django.core.validators import validate_email
 from django.urls import reverse
 
 from app.models import MainWheel, MainNav, MainMustBuy, MainShop, MainShow, FoodType, Goods, AXFUser
+from app import views_helper
 
 
 def home(request):
@@ -89,6 +91,10 @@ def cart(request):
 
 
 def mine(request):
+    user_id = request.session.get('user_id')
+    data = {
+        'title': '個人中心'
+    }
     return render(request, 'main/mine.html')
 
 
@@ -105,7 +111,13 @@ def register(request):
         icon = request.FILES.get('icon')
         user = AXFUser()
         user.u_user = username
-        user.u_password = password
+
+        # 自製
+        user.u_password = views_helper.hash_password(password)
+
+        # django 內建
+        user.u_password = make_password(password=password)
+
         user.u_email = email
         user.u_icon = icon
         user.save()
@@ -114,18 +126,23 @@ def register(request):
 
 def login(request):
     if request.method == 'GET':
+        if request.session.get('user_id'):
+            return HttpResponse('ok')
         data = {
             'title': '登入'
         }
         return render(request, 'user/login.html', context=data)
     elif request.method == 'POST':
-        username = request.POST.get('user_input')
-        password = request.POST.get('password_input')
-        u_user = AXFUser.objects.filter(u_user=username)
-        if u_user.exists():
-            if u_user.filter(u_password=password).exists():
-                return
-    return HttpResponse('login ok')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = AXFUser.objects.filter(u_user=username)
+        if user.exists():
+            user = user.first()
+            check = check_password(password=password, encoded=user.u_password)
+            if check:
+                request.session['user_id'] = user.id
+                return redirect(reverse('axf:mine'))
+        return redirect(reverse('axf:login'))
 
 
 def check_user(request):
