@@ -19,4 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('Api.urls', namespace='api')),
+    path('cbv/', include('CBV.urls', namespace='cbv')),
 ]
