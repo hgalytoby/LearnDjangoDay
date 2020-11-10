@@ -9,8 +9,10 @@ from CBV.models import Book
 
 
 class HelloCBV(View):
+    msg = ''
+
     def get(self, request):
-        return HttpResponse('hello get')
+        return HttpResponse(f'hello get {self.msg}')
 
     def post(self, request):
         return HttpResponse('hello post')
