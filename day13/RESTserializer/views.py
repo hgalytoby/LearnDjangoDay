@@ -3,13 +3,16 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.views import View
+from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from six import BytesIO
 
 from RESTserializer.models import Person, Student
-from RESTserializer.serializers import PersonSerializer, StudentSerializer
+from RESTserializer.serializers import PersonSerializer, StudentSerializer, BookSerializer
 
 
 class PersonView(View):
@@ -72,7 +75,20 @@ class StudentView(APIView):
         student_serializer = StudentSerializer(data=request.data)
         if student_serializer.is_valid():
             student_serializer.save()
-            return JsonResponse(student_serializer.data)
+            # return JsonResponse(student_serializer.data)
+            return Response(student_serializer.data)  # 這個也是 JsonResponse
         return JsonResponse(student_serializer.errors, status=400)
 
 
+# @api_view()  #  默認指允許GET 可點原始碼看!
+@api_view(http_method_names=['GET', 'POST', ])  # 只允許列表內的狀態
+def books(request):
+    print(type(request))
+    if request.method == 'GET':
+        return Response(data={'msg': 'get ok'})
+    elif request.method == 'POST':
+        book_serializer = BookSerializer(data=request.data)
+        if book_serializer.is_valid():
+            book_serializer.save()
+            return Response(book_serializer.data)
+        return Response(data={'msg': 'error'}, status=status.HTTP_400_BAD_REQUEST)
