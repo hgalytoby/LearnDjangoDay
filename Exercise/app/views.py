@@ -1,4 +1,5 @@
 from django.contrib.auth.hashers import make_password, check_password
+
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
@@ -8,6 +9,7 @@ from django.urls import reverse
 
 from app.models import MainWheel, MainNav, MainMustBuy, MainShop, MainShow, FoodType, Goods, AXFUser
 from app import views_helper
+from project.settings import MEDIA_KEY_PREFIX
 
 
 def home(request):
@@ -93,9 +95,16 @@ def cart(request):
 def mine(request):
     user_id = request.session.get('user_id')
     data = {
-        'title': '個人中心'
+        'title': '個人中心',
+        'is_login': False,
     }
-    return render(request, 'main/mine.html')
+    if user_id:
+        user = AXFUser.objects.get(pk=user_id)
+        data['username'] = user.u_user
+        data['icon'] = MEDIA_KEY_PREFIX + user.u_icon.url
+        print(data['icon'])
+        data['is_login'] = True
+    return render(request, 'main/mine.html', data)
 
 
 def register(request):
@@ -183,3 +192,12 @@ def check_email(request):
         data['msg'] = 'email exists'
         return JsonResponse(data)
     return JsonResponse(data)
+
+
+def logout(request):
+    request.session.flush()
+
+    return redirect(reverse('axf:mine'))
+
+
+

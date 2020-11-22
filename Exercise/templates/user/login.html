@@ -2,23 +2,28 @@
 {% load static %}
 
 {% block ext_css %}
-{{ block.super }}
-<link rel="stylesheet" href="{% static 'axf/user/css/login.css' %}">
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'axf/user/css/login.css' %}">
+{% endblock %}
+{% block ext_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'axf/user/js/login.js' %}"></script>
+
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <form method="POST" action="{% url 'axf:login' %}">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="user_input">帳號</label>
-            <input name="username" type="text" class="form-control" id="user_input" placeholder="請輸入帳號/信箱">
-        </div>
-        <div class="form-group">
-            <label for="password_input">密碼</label>
-            <input name="password" type="password" class="form-control" id="password_input" placeholder="請輸入密碼">
-        </div>
-        <button type="submit" class="btn btn-success btn-block">Submit</button>
-    </form>
-</div>
+    <div class="container">
+        <form method="POST" action="{% url 'axf:login' %}" onsubmit="return parse_data()">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="user_input">帳號</label>
+                <input name="username" type="text" class="form-control" id="user_input" placeholder="請輸入帳號/信箱">
+            </div>
+            <div class="form-group">
+                <label for="password_input">密碼</label>
+                <input name="password" type="password" class="form-control" id="password_input" placeholder="請輸入密碼">
+            </div>
+            <button type="submit" class="btn btn-success btn-block">Submit</button>
+        </form>
+    </div>
 {% endblock %}

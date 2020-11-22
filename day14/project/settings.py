@@ -92,6 +92,20 @@ DATABASES = {
     },
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        # 'LOCATION': 'redis://your_host_ip:port',
+        'LOCATION': data['redis_host'],
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            # 'PASSWORD': 'password',
+            'PASSWORD': data['redis_password'],
+        },
+        'TIMEOUT': '60' * 5,
+    }
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

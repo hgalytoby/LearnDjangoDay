@@ -130,6 +130,8 @@ STATICFILES_DIRS = [
     Path(BASE_DIR, 'static')
 ]
 
+MEDIA_KEY_PREFIX = '/static/uploads/'
+
 MEDIA_ROOT = Path(BASE_DIR, 'static/uploads')
 
 FONT_PATH = Path(BASE_DIR, 'static/fonts/arial.TTF')

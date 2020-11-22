@@ -19,3 +19,4 @@ def edit_blog(request):
         blog.b_content = content
         blog.save()
         return HttpResponse('ok')
+

@@ -2,41 +2,42 @@
 {% load static %}
 
 {% block ext_css %}
-{{ block.super }}
-<link rel="stylesheet" href="{% static 'axf/user/css/register.css' %}">
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'axf/user/css/register.css' %}">
 {% endblock %}
 
 {% block ext_js %}
-<script type="text/javascript" src="{% static 'axf/user/js/register.js' %}"></script>
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'axf/user/js/register.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <form method="POST" enctype="multipart/form-data" action="{% url 'axf:register' %}" onsubmit="return check()">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="user_input">帳號</label>
-            <input name="username" type="text" class="form-control" id="user_input" placeholder="請輸入帳號">
-            <span id="username_info"></span>
-        </div>
-        <div class="form-group">
-            <label for="password_input">密碼</label>
-            <input name="password" type="password" class="form-control" id="password_input" placeholder="請輸入密碼">
-        </div>
-        <div class="form-group">
-            <label for="password_confirm_input">確認密碼</label>
-            <input type="password" class="form-control" id="password_confirm_input" placeholder="請再次輸入密碼">
-        </div>
-        <div class="form-group">
-            <label for="email_input">信箱</label>
-            <input name="email" type="email" class="form-control" id="email_input" placeholder="請輸入信箱">
-            <span id="email_info"></span>
-        </div>
-        <div class="form-group">
-            <label for="icon_input">上傳頭像</label>
-            <input name="icon" type="file" id="icon_input">
-        </div>
-        <button type="submit" class="btn btn-success btn-block">Submit</button>
-    </form>
-</div>
+    <div class="container">
+        <form method="POST" enctype="multipart/form-data" action="{% url 'axf:register' %}" onsubmit="return check()">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="user_input">帳號</label>
+                <input name="username" type="text" class="form-control" id="user_input" placeholder="請輸入帳號">
+                <span id="username_info"></span>
+            </div>
+            <div class="form-group">
+                <label for="password_input">密碼</label>
+                <input name="password" type="password" class="form-control" id="password_input" placeholder="請輸入密碼">
+            </div>
+            <div class="form-group">
+                <label for="password_confirm_input">確認密碼</label>
+                <input type="password" class="form-control" id="password_confirm_input" placeholder="請再次輸入密碼">
+            </div>
+            <div class="form-group">
+                <label for="email_input">信箱</label>
+                <input name="email" type="email" class="form-control" id="email_input" placeholder="請輸入信箱">
+                <span id="email_info"></span>
+            </div>
+            <div class="form-group">
+                <label for="icon_input">上傳頭像</label>
+                <input name="icon" type="file" id="icon_input">
+            </div>
+            <button type="submit" class="btn btn-success btn-block">Submit</button>
+        </form>
+    </div>
 {% endblock %}
