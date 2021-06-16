@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.views import View
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.generics import GenericAPIView
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
@@ -15,21 +16,39 @@ from RESTserializer.models import Person, Student
 from RESTserializer.serializers import PersonSerializer, StudentSerializer, BookSerializer
 
 
-class PersonView(View):
+class PersonView(GenericAPIView):
+    serializer_class = PersonSerializer
+    queryset = Person.objects.all()
+
     def get(self, request):
         person = Person.objects.all()
+        # many 參數是指多個資料的意思。
+        # 因為是.objects.all()。
         person_serializer = PersonSerializer(person, many=True)
-        return JsonResponse(person_serializer.data, safe=False)
+        # 因為是 dict ，所以 safe 要設定成 False。
+        # return JsonResponse(person_serializer.data, safe=False)
+        return Response(data=person_serializer.data)
 
     def post(self, request):
-        p_name = request.POST.get('p_name')
-        p_age = request.POST.get('p_age')
-        person = Person()
-        person.p_name = p_name
-        person.p_age = p_age
-        person.save()
-        person_serializer = PersonSerializer(person)
-        return JsonResponse(person_serializer.data)
+        person_serializer = PersonSerializer(data=request.data)
+        if request.data.get('id'):
+            person_serializer.instance = Person.objects.get(pk=request.data.get('id'))
+        else:
+            person_serializer.fields.pop('id')
+        if person_serializer.is_valid():
+            person_serializer.save()
+            # return JsonResponse(student_serializer.data)
+            return Response(person_serializer.data)  # 這個也是 JsonResponse
+        return JsonResponse(person_serializer.errors, status=400)
+        # p_name = request.POST.get('p_name')
+        # p_age = request.POST.get('p_age')
+        # person = Person()
+        # person.p_name = p_name
+        # person.p_age = p_age
+        # person.save()
+        # person_serializer = PersonSerializer(person)
+        # return JsonResponse(person_serializer.data)
+        # return Response(person_serializer.data)
 
 
 class StudentView(APIView):
@@ -55,12 +74,14 @@ class StudentView(APIView):
         from rest_framework.parsers import JSONParser
         data = JSONParser().parse(stream)
         data
+        以上是在 shell。
         student_ser = StudentSerializer(data=data)
         student_ser.is_valid()
         student_ser.save()
 
         """
         # 第一種
+        # 繼承 View 不是 APIView。
         # s_name = request.POST.get('s_name')
         # s_age = request.POST.get('s_age')
         # student = Student()

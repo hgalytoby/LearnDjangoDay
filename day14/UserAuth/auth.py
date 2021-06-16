@@ -6,10 +6,11 @@ from UserAuth.models import UserModel
 
 class UserAuth(BaseAuthentication):
     def authenticate(self, request):
-        token = request.query_params.get('token')
-        try:
-            u_id = cache.get(token)
-            user = UserModel.objects.get(pk=u_id)
-            return user, token
-        except:
-            return
+        if request.method == 'GET':
+            token = request.query_params.get('token')
+            try:
+                u_id = cache.get(token)
+                user = UserModel.objects.get(pk=u_id)
+                return user, token
+            except:
+                return

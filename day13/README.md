@@ -1,0 +1,72 @@
+- 雙R
+    - Request
+        - rest_framework.request
+        - 將 Django 中的 Request 作為了自己的屬性 _request
+        - 屬性和方法
+            - content_type
+            - stream
+            - query_params
+            - data
+                - 同時兼容 POST, PUT, PATCH
+            - user
+                - 可以直接在請求上取得用戶
+                - 相當於在請求上添加一個屬性，用戶對象
+            - auth
+                - 認證
+                - 相當於在請求上添加一個屬性，屬性值是token
+    - Response
+        - 依然是 HttpResponse 的子類
+        - 自己封裝的
+            - data 直接接受字典轉成 JSON
+            - status 狀態碼
+        - 屬性和方法
+            - rendered_content
+            - status_text
+
+- APIView
+    - parser_classes
+        - 解析轉換的類
+    - authentication_classes
+        - 認證的類
+    - throttle_classes
+        - 控制的類
+        - 控制請求頻率
+    - permission_classes
+        - 權限的類
+    - content_negotiation_class
+        - 內容過濾的類
+    - metadata_class
+        - 原訊息的類
+    - versioning_class
+        - 版本控制的類
+    - as_view()
+        - 調用父類中的 as_view -> dispatch
+            - dispatch 被重寫。
+            - initialize_request
+                - 使用 Django 的 request 構建了一個 Rest 中的 Request
+            - initial     
+                - perform_authentication
+                    - 執行用戶認證
+                    - 遍歷認證器
+                        - 如果認證成功會返回一個元組
+                        - 元組中第一個元素是就是 user
+                        - 第二個元素就是 auth, token
+                - check_permissions
+                    - 檢查權限
+                    - 遍歷權限檢測器
+                        - 只要有一個權限檢測沒通過
+                        - 就直接顯示權力被拒絕
+                        - 所有權限都滿足，才算是擁有權限
+                - check_throttles
+                    - 檢查頻率
+                    - 遍歷頻率限制器
+                        - 如果驗證不通過，就需要等待 
+            csrf_exempt
+                - 所有 APIView 的子類都是  csrf 豁免
+    - 錯誤碼
+        - CBV
+            - APIView
+        - FBV
+            - 添加 @api_view 裝飾器
+            - 必須手動指定允許的請求
+    - 針對視圖函數的包裝

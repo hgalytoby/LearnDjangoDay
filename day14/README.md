@@ -1,0 +1,148 @@
+### APIView
+- 子類
+    - generics 包中
+    - GenericAPIView
+        - 增加的模型的取得操作
+        - get_queryset
+        - get_object
+            - lookup_field 默認 pk
+        - get_serializer
+        - get_serializer_class
+        - filter_queryset
+        - paginator
+        - paginator_queryset
+        - get_paginated_response
+    - CreateAPIView
+        - 創建的類視圖
+        - 繼承自 GenericAPIView
+        - 繼承自 CreateModelMixin
+        - 實現了 post 進行創建
+    - ListAPIView
+        - 列表的類視圖
+        - 繼承自 GenericAPIView
+        - 繼承自 ListModelMixin
+        - 實現了get
+    - RetrieveAPIView
+        - 查詢單個資料的類視圖
+        - 繼承自 GenericAPIView
+        - 繼承自 RetrieveModelMixin
+        - 實現了 get
+    - DestroyAPIView  
+        - 銷毀資料的纇視圖，刪除資料的類視圖
+        - 繼承自 GenericAPIView
+        - 繼承自 DestroyModelMixin
+        - 實現了 Delete
+    - UpdateAPIView
+        - 更新資料的類視圖
+        - 繼承自 GenericAPIView
+        - 繼承自 UpdateModelMixin
+        - 實現了 put，patch
+    - ListCreateAPIView
+        - 取得列表資料，取得資料的類視圖
+        - 繼承自 GenericAPIView
+        - 繼承自 ListModelMixin
+        - 繼承自 CreateModelMixin
+        - 實現 get, post
+    - RetrieveUpdateAPIView
+        - 取得單個資料，更新單個資料的類視圖
+        - 繼承自 GenericAPIView
+        - 繼承自 RetrieveModelMixin
+        - 繼承自 UpdateModelMixin
+        - 實現了 get, put, patch
+    - RetrieveDestroyAPIView
+        - 查詢單個資料，刪除單個資料的類視圖
+        - 繼承自 GenericAPIView
+        - 繼承自 RetrieveModelMixin
+        - 繼承自 DestroyModelMixin
+        - 實現了 get, delete
+    - RetrieveUpdateDestroyAPIView 
+        - 查詢單個資料，更新單個資料，刪除單個資料的類視圖
+        - 繼承自 GenericAPIView
+        - 繼承自 RetrieveModelMixin
+        - 繼承自 DestroyModelMixin
+        - 繼承自 UpdateModelMixin
+        - 實現了 get, put, patch, delete
+- mixins
+    - CreateModelMixin
+        - create 
+        - perform_create
+        - get_success_headers
+    - ListModelMixin
+        - list
+            - 查詢結果集，添加分頁，序列化
+    - RetrieveModelMixin  
+        - retrieve
+            - 取得單個對象並進行序列化
+    - DestroyModelMixin
+        - destroy
+            - 取得單個對象
+            - 調用執行刪除
+            - 返回 Response 狀態碼 204
+        - perform_destroy
+            - 默認是模型的 delete
+            - 如果說資料的邏輯刪除
+                - 重寫進行保存
+    - UpdateModelMixin
+        - update 
+            - 取得對象，合法驗證
+            - 執行更新
+        - perform_update
+        - partial_update
+            - 差量更新，對應的是 patch
+- viewsets
+    - ViewSetMixin
+        - 重寫 as_view
+    - GenericViewSet
+        - 繼承 ViewSetMixin
+        - 繼承 GenericAPIView
+    - ViewSet
+        - 繼承 APIView
+        - 繼承 ViewSetMixin
+        - 默認什麼都不支持
+    - ReadOnlyModelViewSet
+        - 只讀的模型的視圖集合
+        - 繼承 RetrieveModelMixin
+        - 繼承 ListModelMixin
+        - 繼承 GenericViewSet
+    - ModelViewSet
+        - 直接封裝對象所有操作
+        - 繼承 CreateModelMixin
+        - 繼承 RetrieveModelMixin
+        - 繼承 UpdateModelMixin
+        - 繼承 DestroyModelMixin
+        - 繼承 ListModelMixin
+        - 繼承 GenericViewSet
+
+### 用戶模塊
+- 用戶註冊
+    - RESTful
+    - 資料開始
+        - 模型、資料庫
+        - 創建用戶
+            - 用戶身份
+                - 管理員
+                - 普通
+                - 刪除用戶
+    - 註冊實現
+        - 添加超級管理員實現
+- 用戶登入
+    - 驗證用戶密碼
+    - 生成用戶令牌
+    - 出現和註冊公用 post 衝突
+        - 添加 path?action=login
+        - 添加 path?action=register
+    - 抓異常盡量準確
+- 用戶認證
+    - BaseAuthentication
+        - authenticate
+            - 認證成功會返回一個元祖
+                - 第一個元素是 user
+                - 第二個元素是 token
+- 用戶權限
+    - BasePermission
+        - has_permission
+            - 是否擁有權限
+            - true 擁有權限
+            - false 不擁有限
+- 用戶認證和權限
+    - 直接配置在視圖函數上就 ok 了 

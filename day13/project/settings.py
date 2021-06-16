@@ -89,7 +89,7 @@ DATABASES = {
         'NAME': 'django-rest-api',
         'USER': 'postgres',
         'PASSWORD': data['localhost_postgresql'],
-        'HOST': 'localhost',
+        'HOST': data['home_postgresql_host'],
         'PORT': '5432',
     },
 }

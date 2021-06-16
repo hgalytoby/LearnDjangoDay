@@ -9,6 +9,8 @@ app_name = 'app'
 urlpatterns = [
     path('games/', views.GamesView.as_view()),
     path('games/<str:pk>/', views.GameView.as_view(), name='game-detail'),
+    path('read/', views.ReadGamesView.as_view()),
+    path('read/<str:pk>', views.ReadGameView.as_view(), name='game-detail'),
 ]
 
 router = DefaultRouter()
